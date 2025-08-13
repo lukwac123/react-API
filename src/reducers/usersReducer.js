@@ -1,15 +1,22 @@
-import { ADD_USER } from "../actions/usersActionTypes";
+import { ADD_USER, REMOVE_USER } from "../actions/usersActionTypes";
 
-let userCounter = 0;
+let usersCounter = 0;
 const initialState = {
     users: []
 };
 
 const usersReducer = (state = initialState, action) => {
     if (action.type === ADD_USER) {
-        let data = { id: ++userCounter, ...action.user };
+        action.user = {id: ++usersCounter, ...action.user };
         return {
-            users: [...state.users, data]
+            users: [...state.users, action.user]
+        };
+    }
+
+    else if (action.type === REMOVE_USER) {
+        return {
+            ...state,
+            users: state.users.filter(user => user.id !== action.id)
         };
     }
     return state;
